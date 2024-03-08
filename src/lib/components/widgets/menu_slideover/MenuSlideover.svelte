@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Slideover } from '$lib/components';
 	import ArrowLeftRegularIcon from '$lib/components/icons/ArrowLeftRegularIcon.svelte';
 	import Stepper from './stepper/Stepper.svelte';
 	import Step from './stepper/Step.svelte';
@@ -11,15 +10,16 @@
 	import { tweened } from 'svelte/motion';
 
 	type Props = {
-		open?: boolean;
-		controller?: InstanceType<typeof Stepper>;
+		open: boolean;
 		children?: SvelteNode;
 	};
-	let { open = false, controller, children } = $props<Props>();
+	let { open = false, children } = $props<Props>();
 
 	const duration = 200;
 
 	let is_mobile = $state(true);
+
+	let stepper_controller = $state<InstanceType<typeof Stepper>>();
 
 	const width_tweened = tweened(0, { duration });
 
@@ -32,7 +32,7 @@
 	onMount(() => {
 		function onkeyup(ev: KeyboardEvent) {
 			if (ev.key === 'Escape') {
-				open = false;
+				closeSlideover();
 			}
 		}
 
@@ -62,8 +62,20 @@
 		};
 	});
 
-	function close() {
+	export function openSlideover() {
+		open = true;
+	}
+
+	export function closeSlideover() {
 		open = false;
+	}
+
+	export function navigate(path: string) {
+		return stepper_controller?.navigate(path);
+	}
+
+	export function back() {
+		return stepper_controller?.back();
 	}
 </script>
 
@@ -81,9 +93,9 @@
 				<div class="flex flex-nowrap items-center border-b py-4 px-6 font-bold">
 					<button
 						onclick={() => {
-							const p = controller?.back();
+							const p = back();
 							if (!p) {
-								close();
+								closeSlideover();
 							}
 						}}
 					>
@@ -94,14 +106,11 @@
 				</div>
 
 				<div class="flex-1 w-full">
-					<Stepper bind:this={controller}>
+					<Stepper bind:this={stepper_controller}>
 						<Step path="/">
 							<ul>
 								<li>Home</li>
-								<li
-									class="flex flex-nowrap items-center"
-									onclick={() => controller?.navigate('/invest')}
-								>
+								<li class="flex flex-nowrap items-center" onclick={() => navigate('/invest')}>
 									<span>Invest</span>
 									<span class="ml-auto"> <ChevronRight /></span>
 								</li>
@@ -128,7 +137,7 @@
 				role="button"
 				tabindex="-1"
 				transition:fade={{ duration: 200, delay: 0 }}
-				onclick={close}
+				onclick={closeSlideover}
 			/>
 		</div>
 	{/if}

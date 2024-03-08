@@ -1,12 +1,23 @@
 <script lang="ts">
 	import { MenuSlideover } from '$lib/components/widgets/menu_slideover';
-	import { Modal, Popover } from '$lib/components/ui';
+	import { Modal } from '$lib/components/ui';
 	import NavItem from './NavItem.svelte';
 
 	let open_slideover = $state(false);
 	let open_modal = $state(false);
 
 	let popover_reference_element = $state<HTMLElement>();
+	let menu_controller = $state<InstanceType<typeof MenuSlideover>>();
+
+	// the following code is an example of how to controll menu slideover from the external
+
+	// onMount(() => {
+	// 	setTimeout(async () => {
+	// 		menu_controller?.openSlideover();
+	// 		await tick();
+	// 		menu_controller?.navigate('/invest');
+	// 	}, 5000);
+	// });
 
 	function onopen_slideover() {
 		open_slideover = !open_slideover;
@@ -17,7 +28,7 @@
 	}
 </script>
 
-<MenuSlideover bind:open={open_slideover}>
+<MenuSlideover bind:open={open_slideover} bind:this={menu_controller}>
 	<div class="flex flex-col h-full bg-neutral-400 p-8">
 		<div>
 			<ul class="flex">
