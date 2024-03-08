@@ -6,7 +6,6 @@
 	let open_slideover = $state(false);
 	let open_modal = $state(false);
 
-	let popover_reference_element = $state<HTMLElement>();
 	let menu_controller = $state<InstanceType<typeof MenuSlideover>>();
 
 	// the following code is an example of how to controll menu slideover from the external
