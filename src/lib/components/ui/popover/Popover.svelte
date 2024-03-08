@@ -120,7 +120,7 @@
 {/if}
 
 <style lang="postcss">
-	.rifty-popover {
+	.rift-popover {
 		@apply absolute top-0 left-0;
 	}
 </style>
