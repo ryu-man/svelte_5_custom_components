@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	html,
+	body {
+		min-width: 100svw;
+		min-height: 100svh;
+
+		height: 100svh;
+	}
+}
