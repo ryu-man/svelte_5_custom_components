@@ -1,16 +1,10 @@
-<script lang="ts">
+<script>
 	import { Popover } from '$lib/components';
-	import type { SvelteNode } from 'svelte/compiler';
 	import { fly } from 'svelte/transition';
 
-	type Props = {
-		children: SvelteNode;
-		title?: string;
-	};
+	let { children, title = '' } = $props();
 
-	let { children, title = '' } = $props<Props>();
-
-	let element = $state<HTMLElement>();
+	let element = $state();
 
 	let open = $state(false);
 

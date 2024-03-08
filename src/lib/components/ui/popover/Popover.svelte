@@ -1,10 +1,9 @@
-<script lang="ts">
+<script>
 	import {
 		computePosition,
 		offset as floating_ui_offset,
 		autoPlacement,
-		autoUpdate,
-		type Placement
+		autoUpdate
 	} from '@floating-ui/dom';
 	import { clickOutside, portal } from '$lib/components/ui/actions';
 	import { getRootContext } from '$lib/components';
@@ -12,14 +11,7 @@
 
 	const root_context = getRootContext();
 
-	type Props = {
-		reference: HTMLElement | undefined;
-		open: boolean;
-		placements: Placement[] | undefined;
-		offset: number;
-	};
-
-	let { reference, open, placements, offset } = $props<Props>();
+	let { reference, open, placements, offset } = $props();
 
 	let dx = $state(0);
 	let dy = $state(0);
@@ -27,7 +19,7 @@
 	let mounted = $state();
 
 	onMount(() => {
-		function onkeyup(ev: KeyboardEvent) {
+		function onkeyup(ev) {
 			if (ev.key === 'Escape') {
 				open = false;
 			}
@@ -44,19 +36,17 @@
 		return open;
 	}
 
-	type InitParamas = Placement[] | undefined;
-
-	function init(node: HTMLElement, placements: InitParamas) {
+	function init(node, placements) {
 		node.hidden = true;
 
-		let cleanup: (() => void) | undefined = undefined;
+		let cleanup = undefined;
 
 		if (!reference && !node.parentElement) {
 			throw new Error('<Popover> reeference element is not defined');
 		}
 
 		if (!reference) {
-			reference = node.parentElement as HTMLElement;
+			reference = node.parentElement;
 		}
 
 		console.log(reference);
@@ -76,7 +66,7 @@
 		});
 
 		return {
-			update(placements: InitParamas) {
+			update(placements) {
 				if (!reference) return;
 				portal(node, root_context.overlayElement);
 			},
@@ -86,9 +76,7 @@
 			}
 		};
 
-		type AttachParams = { placements: Placement[] | undefined; reference: HTMLElement };
-
-		function attach(node: HTMLElement, { placements, reference }: AttachParams) {
+		function attach(node, { placements, reference }) {
 			return computePosition(reference, node, {
 				middleware: [
 					floating_ui_offset(offset),

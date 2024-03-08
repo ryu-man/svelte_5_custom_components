@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import ArrowLeftRegularIcon from '$lib/components/icons/ArrowLeftRegularIcon.svelte';
 	import Stepper from './stepper/Stepper.svelte';
 	import Step from './stepper/Step.svelte';
@@ -6,23 +6,18 @@
 	import ChevronRight from '$lib/components/icons/ChevronRight.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { cn } from '$lib/utils';
-	import type { SvelteNode } from 'svelte/compiler';
 	import { tweened } from 'svelte/motion';
 	import DismissRegular from '$lib/components/icons/DismissRegular.svelte';
 
-	type Props = {
-		open: boolean;
-		children?: SvelteNode;
-	};
-	let { open = false, children } = $props<Props>();
+	let { open = false, children } = $props();
 
 	const duration = 200;
 
 	let is_mobile = $state(true);
 
-	let stepper_controller = $state<InstanceType<typeof Stepper>>();
+	let stepper_controller = $state();
 
-	let history = $state<string[]>([]);
+	let history = $state([]);
 
 	const width_tweened = tweened(0, { duration });
 
@@ -33,7 +28,7 @@
 	});
 
 	onMount(() => {
-		function onkeyup(ev: KeyboardEvent) {
+		function onkeyup(ev) {
 			if (ev.key === 'Escape') {
 				closeSlideover();
 			}
@@ -73,7 +68,7 @@
 		open = false;
 	}
 
-	export function navigate(path: string) {
+	export function navigate(path) {
 		return stepper_controller?.navigate(path);
 	}
 

@@ -1,18 +1,18 @@
 import { tick } from 'svelte';
 
-export function portal(node: HTMLElement, target: HTMLElement = document.body) {
+export function portal(node, target = document.body) {
 	port(node, target);
 
 	return {
 		destroy() {
 			node.remove();
 		},
-		update(target: HTMLElement = document.body) {
+		update(target = document.body) {
 			port(node, target);
 		}
 	};
 
-	function port(node: HTMLElement, target: HTMLElement = document.body) {
+	function port(node, target = document.body) {
 		if (!target) {
 			throw Error('[actions] portal: Target element is undefined.');
 		}

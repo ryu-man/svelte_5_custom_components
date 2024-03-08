@@ -1,21 +1,13 @@
-<script lang="ts">
+<script>
 	import { onMount, tick } from 'svelte';
-	import { getStepperContext, type Step } from './context';
+	import { getStepperContext } from './context';
 	import { nanoid } from 'nanoid';
-	import type { SvelteNode } from 'svelte/compiler';
 	import { fly } from 'svelte/transition';
 	import { quadInOut } from 'svelte/easing';
 
 	const menu_context = getStepperContext();
 
-	type Props<T = any> = {
-		id?: string;
-		path?: string;
-		data?: T;
-		children: SvelteNode;
-	};
-
-	let { id = nanoid(), path = undefined, data = undefined, children } = $props<Props>();
+	let { id = nanoid(), path = undefined, data = undefined, children } = $props();
 
 	let is_active = $derived(path ? menu_context.path === path : false);
 
@@ -26,7 +18,7 @@
 	});
 
 	onMount(() => {
-		const step: Step = {
+		const step = {
 			id,
 			path,
 			data

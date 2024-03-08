@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import { tick } from 'svelte';
 	import { setRootContext } from './context';
 

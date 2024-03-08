@@ -1,9 +1,4 @@
-export type ClickOUtsideParams = {
-	exclude: (string | Element)[];
-	callback: (ev?: MouseEvent) => void;
-};
-
-export function clickOutside(node: Element, { callback, exclude = [] }: ClickOUtsideParams) {
+export function clickOutside(node, { callback, exclude = [] }) {
 	document.addEventListener('click', handler);
 
 	return {
@@ -12,8 +7,8 @@ export function clickOutside(node: Element, { callback, exclude = [] }: ClickOUt
 		}
 	};
 
-	function handler(ev: MouseEvent) {
-		const target = ev.target as HTMLElement | undefined;
+	function handler(ev) {
+		const target = ev.target;
 		if (target && !node.contains(target)) {
 			// user clicked outside the current element
 
@@ -37,9 +32,8 @@ export function clickOutside(node: Element, { callback, exclude = [] }: ClickOUt
 	}
 }
 
-export type IsScrollingCallback = (element: HTMLElement) => void;
 
-export function isXScrolling(node: HTMLElement, callback?: IsScrollingCallback) {
+export function isXScrolling(node, callback) {
 	const observer = new MutationObserver((entries) => {
 		console.log(
 			'............................................... check if scrolling',
