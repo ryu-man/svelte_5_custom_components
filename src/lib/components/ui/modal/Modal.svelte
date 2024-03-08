@@ -34,7 +34,7 @@
 {#if open}
 	<div class="rift-modal" use:portal={root_context.overlayElement}>
 		<div
-			class="w-full h-full flex items-center justify-center fixed inset-0 backdrop-blur-sm z-[-1] bg-black/25 transition-colors duration-100 pointer-events-auto"
+			class="w-full h-full flex items-center justify-center fixed inset-0 backdrop-blur-sm z-[-1] bg-black/50 transition-colors duration-100 pointer-events-auto"
 			transition:fade={{ duration: 200 }}
 			onclick={close}
 		>
