@@ -68,6 +68,12 @@
 			}, 2000)
 	});
 
+	$effect(()=>{
+		if(!open){
+			step_duration = 0
+		}
+	})
+
 	export function openSlideover() {
 		open = true;
 	}
