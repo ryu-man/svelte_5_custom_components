@@ -80,7 +80,7 @@
 </script>
 
 <div class="slideover-container flex flex-nowrap w-full h-full overflow-x-hidden">
-	<div class="flex-1" style:margin-left="{110 * $width_tweened * -1}svw">
+	<div class="flex-1" style:margin-left="{115 * $width_tweened * -1}svw">
 		{@render children()}
 	</div>
 
