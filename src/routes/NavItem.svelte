@@ -19,7 +19,10 @@
 	</span>
 
 	<Popover bind:open>
-		<div in:fly|global={{ duration: 300, y: 16 }} out:fly|global={{ duration: 10, y: 16 }}>
+		<div
+			in:fly|global={{ duration: 400, delay: 100, y: 16 }}
+			out:fly|global={{ duration: 400, y: 16 }}
+		>
 			{@render children()}
 		</div>
 	</Popover>
