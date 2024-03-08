@@ -2,7 +2,7 @@
 	import ArrowLeftRegularIcon from '$lib/components/icons/ArrowLeftRegularIcon.svelte';
 	import Stepper from './stepper/Stepper.svelte';
 	import Step from './stepper/Step.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import ChevronRight from '$lib/components/icons/ChevronRight.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { cn } from '$lib/utils';
@@ -18,6 +18,8 @@
 	let stepper_controller = $state();
 
 	let history = $state([]);
+
+	let step_duration = $state(0);
 
 	const width_tweened = tweened(0, { duration });
 
@@ -58,6 +60,12 @@
 		return () => {
 			window.removeEventListener('resize', onresize);
 		};
+	});
+
+	$effect(() => {
+			setTimeout(()=>{
+				step_duration = 200;
+			}, 2000)
 	});
 
 	export function openSlideover() {
@@ -109,7 +117,7 @@
 
 				<div class="flex-1 w-full">
 					<Stepper bind:this={stepper_controller} bind:history>
-						<Step path="/">
+						<Step path="/" duration={step_duration}>
 							<ul>
 								<li>
 									<a href="/"> Home </a>
