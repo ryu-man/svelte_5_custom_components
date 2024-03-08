@@ -109,15 +109,25 @@
 					<Stepper bind:this={stepper_controller}>
 						<Step path="/">
 							<ul>
-								<li>Home</li>
+								<li>
+									<a href="/"> Home </a>
+								</li>
 								<li class="flex flex-nowrap items-center" onclick={() => navigate('/invest')}>
 									<span>Invest</span>
 									<span class="ml-auto"> <ChevronRight /></span>
 								</li>
-								<li>Trade</li>
-								<li>Learn</li>
-								<li>Company</li>
-								<li>Support</li>
+								<li>
+									<a href="/trade"> Trade </a>
+								</li>
+								<li>
+									<a href="/learn"> Learn </a>
+								</li>
+								<li>
+									<a href="/company"> Company </a>
+								</li>
+								<li>
+									<a href="/support"> Support </a>
+								</li>
 							</ul>
 						</Step>
 
