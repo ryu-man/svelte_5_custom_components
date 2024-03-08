@@ -25,7 +25,7 @@
 	</span>
 
 	<Popover bind:open>
-		<div transition:fly|global={{ duration: 200, y: 16 }}>
+		<div in:fly|global={{ duration: 300, y: 16 }} out:fly|global={{ duration: 10, y: 16 }}>
 			{@render children()}
 		</div>
 	</Popover>
