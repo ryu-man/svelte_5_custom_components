@@ -70,7 +70,9 @@
 
 	$effect(()=>{
 		if(!open){
-			step_duration = 0
+			setTimeout(() => {
+				step_duration = 0
+			}, 1000);
 		}
 	})
 
