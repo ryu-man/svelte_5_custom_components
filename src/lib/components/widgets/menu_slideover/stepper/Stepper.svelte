@@ -4,13 +4,12 @@
 
 	type Props = {
 		children: SvelteNode;
+		history?: string[];
 	};
 
-	let { children } = $props<Props>();
+	let { children, history = [] } = $props<Props>();
 
 	let steps_per_path = $state<Record<string, Step>>({});
-
-	let history = $state<string[]>([]);
 
 	let context = $state<StepperContext>({
 		steps: {},
@@ -49,7 +48,7 @@
 			navigate(_, -1);
 		}
 
-		return _
+		return _;
 	}
 </script>
 

@@ -8,6 +8,7 @@
 	import { cn } from '$lib/utils';
 	import type { SvelteNode } from 'svelte/compiler';
 	import { tweened } from 'svelte/motion';
+	import DismissRegular from '$lib/components/icons/DismissRegular.svelte';
 
 	type Props = {
 		open: boolean;
@@ -20,6 +21,8 @@
 	let is_mobile = $state(true);
 
 	let stepper_controller = $state<InstanceType<typeof Stepper>>();
+
+	let history = $state<string[]>([]);
 
 	const width_tweened = tweened(0, { duration });
 
@@ -99,14 +102,18 @@
 							}
 						}}
 					>
-						<ArrowLeftRegularIcon />
+						{#if history.length}
+							<ArrowLeftRegularIcon />
+						{:else}
+							<DismissRegular />
+						{/if}
 					</button>
 
 					<div class="flex-1 flex items-center justify-center">Menu</div>
 				</div>
 
 				<div class="flex-1 w-full">
-					<Stepper bind:this={stepper_controller}>
+					<Stepper bind:this={stepper_controller} bind:history>
 						<Step path="/">
 							<ul>
 								<li>
