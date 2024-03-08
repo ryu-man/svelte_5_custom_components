@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Popover } from '$lib/components';
 	import type { SvelteNode } from 'svelte/compiler';
+	import { fly } from 'svelte/transition';
 
 	type Props = {
 		children: SvelteNode;
@@ -24,6 +25,8 @@
 	</span>
 
 	<Popover bind:open>
-		{@render children()}
+		<div in:fly|global={{ duration: 200, y: 32 }} out:fly|global={{ duration: 200, y: 32 }}>
+			{@render children()}
+		</div>
 	</Popover>
 </li>

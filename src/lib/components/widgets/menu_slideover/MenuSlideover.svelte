@@ -5,15 +5,28 @@
 	import Step from './stepper/Step.svelte';
 	import { onMount } from 'svelte';
 	import ChevronRight from '$lib/components/icons/ChevronRight.svelte';
+	import { fade, fly } from 'svelte/transition';
+	import { cn } from '$lib/utils';
+	import type { SvelteNode } from 'svelte/compiler';
+	import { tweened } from 'svelte/motion';
 
 	type Props = {
 		open?: boolean;
+		controller?: InstanceType<typeof Stepper>;
+		children?: SvelteNode;
 	};
+	let { open = false, controller, children } = $props<Props>();
 
-	let { open = false, controller } = $props<Props>();
+	const duration = 200;
+
+	let is_mobile = $state(true);
+
+	const width_tweened = tweened(0, { duration });
 
 	$effect(() => {
-		console.log(controller);
+		if (is_mobile) {
+			width_tweened.set(+open);
+		}
 	});
 
 	onMount(() => {
@@ -29,45 +42,135 @@
 			document.removeEventListener('keyup', onkeyup);
 		};
 	});
+
+	onMount(() => {
+		function onresize() {
+			if (window.innerWidth < 640) {
+				is_mobile = true;
+				return;
+			}
+
+			is_mobile = false;
+		}
+
+		window.addEventListener('resize', onresize);
+
+		onresize();
+
+		return () => {
+			window.removeEventListener('resize', onresize);
+		};
+	});
+
+	function close() {
+		open = false;
+	}
 </script>
 
-<Slideover class="p-0 text-xl" bind:open>
-	<div class="flex flex-nowrap items-center border-b py-4 px-6 font-bold">
-		<button onclick={() => controller.back()}>
-			<ArrowLeftRegularIcon />
-		</button>
-
-		<div class="flex-1 flex items-center justify-center">Menu</div>
+<div class="slideover-container flex flex-nowrap w-full h-full overflow-x-hidden">
+	<div class="flex-1" style:margin-left="{110 * $width_tweened * -1}svw">
+		{@render children()}
 	</div>
 
-	<div class="flex-1 w-full">
-		<Stepper bind:this={controller}>
-			<Step path="/">
-				<ul>
-					<li>Home</li>
-					<li class="flex flex-nowrap items-center" onclick={() => controller?.navigate('/invest')}>
-                        <span>Invest</span>
-                       <span class="ml-auto"> <ChevronRight /></span>
-                    </li>
-					<li>Trade</li>
-					<li>Learn</li>
-					<li>Company</li>
-					<li>Support</li>
-				</ul>
-			</Step>
+	{#if open}
+		<div class="slide-over">
+			<div
+				class={cn('inner')}
+				transition:fly={{ duration: is_mobile ? 0 : duration, delay: 0, x: 240 }}
+			>
+				<div class="flex flex-nowrap items-center border-b py-4 px-6 font-bold">
+					<button
+						onclick={() => {
+							const p = controller?.back();
+							if (!p) {
+								close();
+							}
+						}}
+					>
+						<ArrowLeftRegularIcon />
+					</button>
 
-			<Step path="/invest">
-				<ul>
-					<li>Invest menu item 1</li>
-					<li>Invest menu item 2</li>
-					<li>Invest menu item 3</li>
-				</ul>
-			</Step>
-		</Stepper>
-	</div>
-</Slideover>
+					<div class="flex-1 flex items-center justify-center">Menu</div>
+				</div>
+
+				<div class="flex-1 w-full">
+					<Stepper bind:this={controller}>
+						<Step path="/">
+							<ul>
+								<li>Home</li>
+								<li
+									class="flex flex-nowrap items-center"
+									onclick={() => controller?.navigate('/invest')}
+								>
+									<span>Invest</span>
+									<span class="ml-auto"> <ChevronRight /></span>
+								</li>
+								<li>Trade</li>
+								<li>Learn</li>
+								<li>Company</li>
+								<li>Support</li>
+							</ul>
+						</Step>
+
+						<Step path="/invest">
+							<ul>
+								<li>Invest menu item 1</li>
+								<li>Invest menu item 2</li>
+								<li>Invest menu item 3</li>
+							</ul>
+						</Step>
+					</Stepper>
+				</div>
+			</div>
+
+			<div
+				class="backdrop fixed inset-0 z-[0] bg-black/50 transition-colors duration-100"
+				role="button"
+				tabindex="-1"
+				transition:fade={{ duration: 200, delay: 0 }}
+				onclick={close}
+			/>
+		</div>
+	{/if}
+</div>
 
 <style lang="postcss">
+	.slide-over {
+		@apply pointer-events-auto z-[1];
+
+		height: 100svh;
+		width: 100%;
+		min-width: 100svw;
+		max-width: 100svw;
+
+		position: relative;
+		top: 0;
+		bottom: 0;
+		right: 0;
+
+		/* @media (min-width: theme("screens.sm")){
+		} */
+
+		@media (min-width: theme('screens.md')) {
+			max-width: max(240px, min(100%, calc(100svw - 54px - 288px)));
+			min-width: 240px;
+			width: fit-content;
+
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			right: 0;
+		}
+
+		@media (min-width: theme('screens.xl')) {
+			max-width: theme('screens.md');
+		}
+	}
+
+	.inner {
+		@apply relative h-full flex flex-col z-10 border-l border-black/10 shadow-sm bg-white overflow-x-hidden overflow-y-auto;
+	}
+
 	li {
 		@apply py-4 border-b px-6 text-base cursor-pointer;
 	}

@@ -7,31 +7,38 @@
 		type Placement
 	} from '@floating-ui/dom';
 	import { clickOutside, portal } from '$lib/components/ui/actions';
-	import { getPopoverContext } from './context';
 	import { getRootContext } from '$lib/components';
-	import { tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 
 	const root_context = getRootContext();
 
-	const popover_context = getPopoverContext();
-	const open_store = popover_context.open;
-	const reference_element_store = popover_context.reference_element;
+	type Props = {
+		reference: HTMLElement | undefined;
+		open: boolean;
+		placements: Placement[] | undefined;
+		offset: number;
+	};
 
-	export let reference: HTMLElement | undefined = $reference_element_store;
-	export let open = $open_store;
-	export let placements: Placement[] | undefined = undefined;
-	export let offset = 8;
+	let { reference, open, placements, offset } = $props<Props>();
 
-	$: open_store.set(open);
-	$: reference_element_store.set(reference);
+	let dx = $state(0);
+	let dy = $state(0);
 
-	let dx = 0;
-	let dy = 0;
+	let mounted = $state();
 
-	let mounted = false;
-	$: if (!open) {
-		mounted = false;
-	}
+	onMount(() => {
+		function onkeyup(ev: KeyboardEvent) {
+			if (ev.key === 'Escape') {
+				open = false;
+			}
+		}
+
+		document.addEventListener('keyup', onkeyup);
+
+		return () => {
+			document.removeEventListener('keyup', onkeyup);
+		};
+	});
 
 	function getOpenStatus() {
 		return open;
@@ -75,6 +82,7 @@
 			},
 			destroy() {
 				cleanup?.();
+				mounted = false;
 			}
 		};
 
@@ -103,11 +111,12 @@
 	}
 
 	function onclick_outside() {
+		mounted = false;
 		open = false;
 	}
 </script>
 
-{#if $open_store}
+{#if open}
 	<div
 		class="rift-popover w-min h-min pointer-events-auto"
 		use:init={placements}

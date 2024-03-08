@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getRootContext, portal } from '$lib/components/ui';
 	import { cn } from '$lib/utils';
+	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
 	const root_context = getRootContext();
@@ -10,6 +11,20 @@
 		open?: boolean;
 	};
 	let { class: klass = '', open = false } = $props<Props>();
+
+	onMount(() => {
+		function onkeyup(ev: KeyboardEvent) {
+			if (ev.key === 'Escape') {
+				open = false;
+			}
+		}
+
+		document.addEventListener('keyup', onkeyup);
+
+		return () => {
+			document.removeEventListener('keyup', onkeyup);
+		};
+	});
 
 	function close() {
 		open = false;

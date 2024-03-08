@@ -48,6 +48,8 @@
 		if (_) {
 			navigate(_, -1);
 		}
+
+		return _
 	}
 </script>
 

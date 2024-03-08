@@ -17,42 +17,42 @@
 	}
 </script>
 
-<div class="flex flex-col w-full h-full bg-neutral-600 p-8">
-	<div>
-		<ul class="flex">
-			<NavItem title="Invest">
-				<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
-			</NavItem>
+<MenuSlideover bind:open={open_slideover}>
+	<div class="flex flex-col h-full bg-neutral-400 p-8">
+		<div>
+			<ul class="flex">
+				<NavItem title="Invest">
+					<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
+				</NavItem>
 
-			<NavItem title="Invest">
-				<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
-			</NavItem>
+				<NavItem title="Invest">
+					<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
+				</NavItem>
 
-			<NavItem title="learn">
-				<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
-			</NavItem>
+				<NavItem title="learn">
+					<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
+				</NavItem>
 
-			<NavItem title="Company">
-				<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
-			</NavItem>
+				<NavItem title="Company">
+					<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
+				</NavItem>
 
-			<NavItem title="Support">
-				<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
-			</NavItem>
-		</ul>
+				<NavItem title="Support">
+					<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
+				</NavItem>
+			</ul>
+		</div>
+		<div class="flex-1"></div>
+		<div class="">
+			<button class="bg-white px-3 py-2 shadow-md rounded-sm font-medium" onclick={onopen_slideover}
+				>Open Slideover</button
+			>
+
+			<button class="bg-white px-3 py-2 shadow-md rounded-sm font-medium" onclick={onopen_modal}
+				>Open Modal</button
+			>
+		</div>
 	</div>
-	<div class="flex-1"></div>
-	<div class="">
-		<button class="bg-white px-3 py-2 shadow-md rounded-sm font-medium" onclick={onopen_slideover}
-			>Open Slideover</button
-		>
-
-		<button class="bg-white px-3 py-2 shadow-md rounded-sm font-medium" onclick={onopen_modal}
-			>Open Modal</button
-		>
-	</div>
-</div>
-
-<MenuSlideover bind:open={open_slideover} />
+</MenuSlideover>
 
 <Modal class="px-4 py-3 " bind:open={open_modal}>Hello world</Modal>
