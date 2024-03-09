@@ -19,8 +19,6 @@
 
 	let history = $state([]);
 
-	let step_duration = $state(0);
-
 	const width_tweened = tweened(0, { duration });
 
 	$effect(() => {
@@ -61,20 +59,6 @@
 			window.removeEventListener('resize', onresize);
 		};
 	});
-
-	$effect(() => {
-			setTimeout(()=>{
-				step_duration = 200;
-			}, 2000)
-	});
-
-	$effect(()=>{
-		if(!open){
-			setTimeout(() => {
-				step_duration = 0
-			}, 1000);
-		}
-	})
 
 	export function openSlideover() {
 		open = true;
@@ -125,7 +109,7 @@
 
 				<div class="flex-1 w-full">
 					<Stepper bind:this={stepper_controller} bind:history>
-						<Step path="/" duration={step_duration}>
+						<Step path="/">
 							<ul>
 								<li>
 									<a href="/"> Home </a>
