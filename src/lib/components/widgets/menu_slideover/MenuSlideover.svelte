@@ -118,11 +118,14 @@
 									<span>Invest</span>
 									<span class="ml-auto"> <ChevronRight /></span>
 								</li>
+
 								<li>
 									<a href="/trade"> Trade </a>
 								</li>
-								<li>
-									<a href="/learn"> Learn </a>
+
+								<li class="flex flex-nowrap items-center" onclick={() => navigate('/learn')}>
+									<span>Learn</span>
+									<span class="ml-auto"> <ChevronRight /></span>
 								</li>
 								<li>
 									<a href="/company"> Company </a>
@@ -138,6 +141,14 @@
 								<li>Invest menu item 1</li>
 								<li>Invest menu item 2</li>
 								<li>Invest menu item 3</li>
+							</ul>
+						</Step>
+
+						<Step path="/learn">
+							<ul>
+								<li>Learn menu item 1</li>
+								<li>Learn menu item 2</li>
+								<li>Learn menu item 3</li>
 							</ul>
 						</Step>
 					</Stepper>

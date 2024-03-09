@@ -3,11 +3,11 @@
 	import { getStepperContext } from './context';
 	import { nanoid } from 'nanoid';
 	import { fly } from 'svelte/transition';
-	import { linear } from 'svelte/easing';
+	import { linear, quadInOut } from 'svelte/easing';
 
 	const menu_context = getStepperContext();
 
-	let { id = nanoid(), path = undefined, data = undefined, duration = 200, children } = $props();
+	let { id = nanoid(), path = undefined, data = undefined, duration = 150, children } = $props();
 
 	let is_active = $derived(path ? menu_context.path === path : false);
 
@@ -33,12 +33,12 @@
 				class="w-full h-full"
 				in:fly={{
 					duration,
-					easing: linear,
+					easing: quadInOut,
 					x: `${100 * menu_context.direction}%`
 				}}
 				out:fly={{
 					duration: 200,
-					easing: linear,
+					easing: quadInOut,
 					x: `${-100 * menu_context.direction}%`
 				}}
 			>
