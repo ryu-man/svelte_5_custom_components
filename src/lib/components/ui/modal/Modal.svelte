@@ -2,7 +2,7 @@
 	import { getRootContext, portal } from '$lib/components/ui';
 	import { cn } from '$lib/utils';
 	import { onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
+	import { fade, scale } from 'svelte/transition';
 
 	const root_context = getRootContext();
 
@@ -38,7 +38,11 @@
 			transition:fade={{ duration: 200 }}
 			onclick={close}
 		>
-			<div class={cn('rift-modal-inner', klass)} onclick={(ev) => ev.stopPropagation()}>
+			<div
+				class={cn('rift-modal-inner', klass)}
+				onclick={(ev) => ev.stopPropagation()}
+				transition:scale={{ duration: 200, start: 0.8 }}
+			>
 				<slot />
 			</div>
 		</div>
