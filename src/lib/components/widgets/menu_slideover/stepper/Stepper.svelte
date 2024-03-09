@@ -1,22 +1,18 @@
-<script lang="ts">
-	import type { SvelteNode } from 'svelte/compiler';
-	import { setStepperContext, type StepperContext, type Step } from './context';
+<script>
+	import { setStepperContext } from './context';
+	import { tick } from 'svelte';
 
-	type Props = {
-		children: SvelteNode;
-		history?: string[];
-	};
+	let { children, history = [] } = $props();
 
-	let { children, history = [] } = $props<Props>();
+	let steps_per_path = $state({});
 
-	let steps_per_path = $state<Record<string, Step>>({});
-
-	let context = $state<StepperContext>({
+	let context = $state({
 		steps: {},
 		path: undefined,
 		direction: 1,
 		mount(step) {
 			this.steps[step.id] = step;
+
 			if (step.path) {
 				steps_per_path[step.path] = step;
 
@@ -33,7 +29,7 @@
 
 	setStepperContext(context);
 
-	export function navigate(path: string, d = 1) {
+	export function navigate(path, d = 1) {
 		context.direction = d;
 
 		if (context.path && d > 0) {
