@@ -109,7 +109,7 @@
 
 				<div class="flex-1 w-full">
 					<Stepper bind:this={stepper_controller} bind:history>
-						<Step path="/">
+						<Step path="/" duration={150}>
 							<ul>
 								<li>
 									<a href="/"> Home </a>
@@ -136,7 +136,7 @@
 							</ul>
 						</Step>
 
-						<Step path="/invest">
+						<Step path="/invest" duration={150}>
 							<ul>
 								<li>Invest menu item 1</li>
 								<li>Invest menu item 2</li>
@@ -144,7 +144,7 @@
 							</ul>
 						</Step>
 
-						<Step path="/learn">
+						<Step path="/learn" duration={150}>
 							<ul>
 								<li>Learn menu item 1</li>
 								<li>Learn menu item 2</li>

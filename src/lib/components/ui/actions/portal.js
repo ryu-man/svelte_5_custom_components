@@ -1,14 +1,15 @@
 import { tick } from 'svelte';
 
 export function portal(node, target = document.body) {
-	port(node, target);
+
+	tick().then(() => port(node, target));
 
 	return {
 		destroy() {
 			node.remove();
 		},
 		update(target = document.body) {
-			port(node, target);
+			tick().then(() => port(node, target));
 		}
 	};
 

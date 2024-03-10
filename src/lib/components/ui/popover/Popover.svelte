@@ -11,10 +11,13 @@
 
 	const root_context = getRootContext();
 
-	let { reference, open, placements, offset } = $props();
+	let { reference, open, placements, offset, x = 0, y = 0 } = $props();
 
 	let dx = $state(0);
 	let dy = $state(0);
+
+	let _x = $state(0);
+	let _y = $state(0);
 
 	let mounted = $state();
 
@@ -86,12 +89,15 @@
 						allowedPlacements: placements
 					})
 				]
-			}).then(({ x, y, placement }) => {
+			}).then((params) => {
+				const placement = params.placement;
+
 				dy = placement.startsWith('top') ? 1 : placement.startsWith('bottom') ? -1 : 0;
 
 				dx = placement.startsWith('left') ? 1 : placement.startsWith('right') ? -1 : 0;
 
-				node.style.transform = `translate(${x}px, ${y}px)`;
+				_x = params.x;
+				_y = params.y;
 
 				mounted = true;
 			});
@@ -112,6 +118,7 @@
 			callback: onclick_outside,
 			exclude: [reference]
 		}}
+		style:transform={`translate(${_x}px, ${_y}px) translate(${x}px, ${y}px)`}
 	>
 		{#if mounted}
 			<slot {dx} {dy} />

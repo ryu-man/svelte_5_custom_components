@@ -1,5 +1,6 @@
 <script>
 	import { Modal } from '$lib/components/ui';
+	import { MorphMenu, MorphMenuItem } from '$lib/components/widgets/morph-menu';
 	import NavItem from './NavItem.svelte';
 
 	let open_modal = $state(false);
@@ -25,27 +26,44 @@
 
 <div class="flex flex-col h-full bg-neutral-400 p-8">
 	<div>
-		<ul class="flex">
-			<NavItem title="Invest">
-				<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
-			</NavItem>
+		<MorphMenu>
+			<MorphMenuItem title="Invest">
+				<div class="w-[400px]">
+					Donec nec sollicitudin urna, et sagittis nisi. Maecenas tincidunt, neque ut semper
+					vestibulum, odio dolor maximus dolor
+				</div>
+			</MorphMenuItem>
 
-			<NavItem title="Invest">
-				<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
-			</NavItem>
+			<MorphMenuItem title="Invest">
+				<div class="w-[500px]">
+					vitae blandit magna lacus sed nisl. Fusce sed finibus lectus. Proin iaculis mollis enim,
+					eget accumsan nisi cursus ut. Donec ex nulla, feugiat sed feugiat volutpat, aliquet vitae
+					felis. Cras porta feugiat maximus.
+				</div>
+			</MorphMenuItem>
 
-			<NavItem title="learn">
-				<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
-			</NavItem>
+			<MorphMenuItem title="Learn">
+				<div class="w-[500px]">
+					Vestibulum posuere risus nec est pellentesque lobortis. Praesent ultrices enim a turpis
+					congue, non sagittis nulla fringilla. Proin euismod iaculis lacus ac fringilla.
+				</div>
+			</MorphMenuItem>
 
-			<NavItem title="Company">
-				<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
-			</NavItem>
+			<MorphMenuItem title="Company">
+				<div class="w-[600px]">
+					Fusce erat felis, consectetur ac neque quis, egestas congue lectus. Aliquam erat volutpat.
+					Proin malesuada sapien nulla, quis bibendum mi maximus non. Aliquam in dictum sem. Aliquam
+					ac massa aliquam
+				</div>
+			</MorphMenuItem>
 
-			<NavItem title="Support">
-				<div class="bg-white p-6 shadow-lg rounded-md border">Hello from popover</div>
-			</NavItem>
-		</ul>
+			<MorphMenuItem title="Support">
+				<div class="w-[200px]">
+					Etiam viverra viverra sapien, eu ultrices risus maximus et. Sed aliquet imperdiet turpis,
+					quis mattis tortor consectetur nec.
+				</div>
+			</MorphMenuItem>
+		</MorphMenu>
 	</div>
 	<div class="flex-1"></div>
 	<div class="">
