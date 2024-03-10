@@ -19,6 +19,9 @@
 			delete this.items[id];
 		}
 	});
+
+	let element = $state();
+
 	let open = $state(!!context.active_id);
 
 	let x = $derived(context.x);
@@ -65,7 +68,7 @@
 	setMorphMenuContext(context);
 </script>
 
-<ul class="flex relative">
+<ul class="flex relative" bind:this={element}>
 	{@render children()}
 
 	<Popover bind:open placements={['bottom-start']} x={$x_spring} y={$y_spring}>
@@ -74,6 +77,7 @@
 			bind:this={context.popover_element}
 			style:width={`${$width_spring}px`}
 			style:height={`${$height_spring}px`}
+			style:transform="translateX(-6%)"
 		></div>
 	</Popover>
 </ul>
