@@ -19,6 +19,8 @@
 
 	let history = $state([]);
 
+	let content_client_width = $state(0);
+
 	const width_tweened = tweened(0, { duration });
 
 	$effect(() => {
@@ -78,7 +80,11 @@
 </script>
 
 <div class="slideover-container flex flex-nowrap w-full h-full overflow-x-hidden">
-	<div class="flex-1" style:margin-left="{115 * $width_tweened * -1}svw">
+	<div
+		class="flex-1 relative"
+		bind:clientWidth={content_client_width}
+		style:margin-left="{content_client_width * $width_tweened * -1}px"
+	>
 		{@render children()}
 	</div>
 
@@ -171,7 +177,7 @@
 		@apply pointer-events-auto z-[1];
 
 		height: 100svh;
-		width: 100%;
+		width: 100svw;
 		min-width: 100svw;
 		max-width: 100svw;
 
@@ -183,7 +189,7 @@
 		/* @media (min-width: theme("screens.sm")){
 		} */
 
-		@media (min-width: theme('screens.md')) {
+		@media (min-width: 640px) {
 			max-width: max(240px, min(100%, calc(100svw - 54px - 288px)));
 			min-width: 240px;
 			width: fit-content;
@@ -192,10 +198,6 @@
 			top: 0;
 			bottom: 0;
 			right: 0;
-		}
-
-		@media (min-width: theme('screens.xl')) {
-			max-width: theme('screens.md');
 		}
 	}
 
