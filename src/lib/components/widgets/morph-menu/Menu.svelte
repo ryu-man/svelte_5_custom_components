@@ -60,7 +60,11 @@
 	$effect(() => {
 		if (!!context.active_id) {
 			open = true;
-			tick().then(() => (hard = false));
+			tick().then(() => {
+				setTimeout(()=>{
+					hard = false
+				}, 10)
+			});
 		} else {
 			open = false;
 			hard = true;
@@ -70,6 +74,7 @@
 	$effect(() => {
 		if (!open) {
 			context.active_id = undefined;
+			hard = true;
 		}
 	});
 
