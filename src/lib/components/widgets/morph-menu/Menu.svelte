@@ -95,7 +95,7 @@
 		{@render children()}
 
 		<Popover bind:open placements={['bottom-start']} x={$x_spring} y={$y_spring} offset={16}>
-			<div class="relative" transition:fly={{ duration: 100, delay: 10, y: -24 }}>
+			<div class="relative" transition:fly={{ duration:300, delay: 10, y: -24 }}>
 				<div
 					class="popover-inner bg-white p-6 shadow-lg rounded-md border box-content"
 					bind:this={context.popover_element}
