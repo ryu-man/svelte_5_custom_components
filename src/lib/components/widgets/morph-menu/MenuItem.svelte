@@ -3,8 +3,7 @@
 	import { nanoid } from 'nanoid';
 	import { getMorphMenuContext } from './context';
 	import { onMount, tick } from 'svelte';
-	import { fade } from 'svelte/transition';
-	import { spring, tweened } from 'svelte/motion';
+	import { tweened } from 'svelte/motion';
 
 	const menu_context = getMorphMenuContext();
 
@@ -59,18 +58,18 @@
 	<span>
 		{title}
 	</span>
-
-	{#if is_active}
-		<div
-			class="w-fit"
-			use:mounted
-			use:portal={menu_context.popover_element}
-			style:opacity={$opacity_spring}
-		>
-			{@render children()}
-		</div>
-	{/if}
 </li>
+
+{#if is_active && menu_context.popover_element}
+	<div
+		class="w-fit"
+		use:mounted
+		use:portal={menu_context.popover_element}
+		style:opacity={$opacity_spring}
+	>
+		{@render children()}
+	</div>
+{/if}
 
 <style lang="postcss">
 	li {

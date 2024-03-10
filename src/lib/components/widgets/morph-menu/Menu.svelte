@@ -2,6 +2,8 @@
 	import { Popover } from '$lib/components';
 	import { spring } from 'svelte/motion';
 	import { setMorphMenuContext } from './context';
+	import { fly } from 'svelte/transition';
+	import { tick } from 'svelte';
 
 	let { children } = $props();
 
@@ -30,6 +32,8 @@
 	let width = $derived(context.width);
 	let height = $derived(context.height);
 
+	let active_element = $derived(context.items[context.active_id]?.element);
+
 	const x_spring = spring(0);
 	const y_spring = spring(0);
 	const width_spring = spring(0);
@@ -52,7 +56,7 @@
 	});
 
 	$effect(() => {
-		if (context.active_id) {
+		if (!!context.active_id) {
 			open = true;
 		} else {
 			open = false;
@@ -72,18 +76,29 @@
 	{@render children()}
 
 	<Popover bind:open placements={['bottom-start']} x={$x_spring} y={$y_spring} offset={16}>
-		<div
-			class="popover-inner bg-white p-6 shadow-lg rounded-md border box-content"
-			bind:this={context.popover_element}
-			style:width={`${$width_spring}px`}
-			style:height={`${$height_spring}px`}
-			style:transform="translateX(-6%)"
-		></div>
+		<div class="relative" transition:fly={{ duration: 100, y: -24 }}>
+			<div
+				class="popover-inner bg-white p-6 shadow-lg rounded-md border box-content"
+				bind:this={context.popover_element}
+				style:width={`${$width_spring}px`}
+				style:height={`${$height_spring}px`}
+				style:transform="translateX(-6%)"
+			/>
 
-		<div class="absolute bottom-[97%] left-8 text-lg text-white">
-			<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"
-				><path fill="currentColor" d="M1 21h22L12 2" /></svg
+			<div
+				class="absolute bottom-[97%] text-lg text-white"
+				style:left="{active_element ? active_element.clientWidth / 2 : 0}px"
 			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="1em"
+					height="1em"
+					viewBox="0 0 24 24"
+					style:transform="translateX(-50%)"
+				>
+					<path fill="currentColor" d="M1 21h22L12 2" />
+				</svg>
+			</div>
 		</div>
 	</Popover>
 </ul>

@@ -54,7 +54,6 @@
 
 		console.log(reference);
 
-		portal(node, root_context.overlayElement);
 		attach(node, { reference, placements }).then(() => {
 			cleanup = autoUpdate(reference, node, async () => {
 				if (!getOpenStatus()) {
@@ -62,16 +61,17 @@
 				}
 
 				node.hidden = true;
-				portal(node, root_context.overlayElement);
+				// portal(node, root_context.overlayElement);
 				await tick();
 				attach(node, { reference, placements });
+
+				node.hidden = false;
 			});
 		});
 
 		return {
 			update(placements) {
 				if (!reference) return;
-				portal(node, root_context.overlayElement);
 			},
 			destroy() {
 				cleanup?.();
