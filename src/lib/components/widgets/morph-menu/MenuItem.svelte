@@ -3,6 +3,8 @@
 	import { nanoid } from 'nanoid';
 	import { getMorphMenuContext } from './context';
 	import { onMount, tick } from 'svelte';
+	import { fade } from 'svelte/transition';
+	import { spring, tweened } from 'svelte/motion';
 
 	const menu_context = getMorphMenuContext();
 
@@ -17,10 +19,16 @@
 		element: undefined
 	});
 
+	const opacity_spring = tweened(0, { duration: 200 });
+
 	$effect(() => {
 		if (is_active) {
+			opacity_spring.set(1, {delay: 100});
 			menu_context.x = item.element.offsetLeft;
+			return;
 		}
+
+		opacity_spring.set(0);
 	});
 
 	onMount(() => {
@@ -53,7 +61,12 @@
 	</span>
 
 	{#if is_active}
-		<div class="w-fit" use:mounted use:portal={menu_context.popover_element}>
+		<div
+			class="w-fit"
+			use:mounted
+			use:portal={menu_context.popover_element}
+			style:opacity={$opacity_spring}
+		>
 			{@render children()}
 		</div>
 	{/if}
