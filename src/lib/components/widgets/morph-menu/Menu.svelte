@@ -56,6 +56,12 @@
 		}
 	});
 
+	$effect(() => {
+		if (!open) {
+			context.active_id = undefined;
+		}
+	});
+
 	setMorphMenuContext(context);
 </script>
 
