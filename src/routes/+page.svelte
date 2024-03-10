@@ -50,7 +50,7 @@
 			</MorphMenuItem>
 
 			<MorphMenuItem title="Company">
-				<div class="w-[600px]">
+				<div class="w-[300px]">
 					Fusce erat felis, consectetur ac neque quis, egestas congue lectus. Aliquam erat volutpat.
 					Proin malesuada sapien nulla, quis bibendum mi maximus non. Aliquam in dictum sem. Aliquam
 					ac massa aliquam
