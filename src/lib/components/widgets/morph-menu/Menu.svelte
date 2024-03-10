@@ -71,7 +71,7 @@
 <ul class="flex relative" bind:this={element}>
 	{@render children()}
 
-	<Popover bind:open placements={['bottom-start']} x={$x_spring} y={$y_spring}>
+	<Popover bind:open placements={['bottom-start']} x={$x_spring} y={$y_spring} offset={16}>
 		<div
 			class="popover-inner bg-white p-6 shadow-lg rounded-md border box-content"
 			bind:this={context.popover_element}
@@ -79,5 +79,11 @@
 			style:height={`${$height_spring}px`}
 			style:transform="translateX(-6%)"
 		></div>
+
+		<div class="absolute bottom-[97%] left-8 text-lg text-white">
+			<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"
+				><path fill="currentColor" d="M1 21h22L12 2" /></svg
+			>
+		</div>
 	</Popover>
 </ul>

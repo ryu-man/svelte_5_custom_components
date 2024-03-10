@@ -23,7 +23,7 @@
 
 	$effect(() => {
 		if (is_active) {
-			opacity_spring.set(1, {delay: 100});
+			opacity_spring.set(1, { delay: 100 });
 			menu_context.x = item.element.offsetLeft;
 			return;
 		}
@@ -55,7 +55,7 @@
 	}
 </script>
 
-<li class="text-white px-6 py-4 relative cursor-pointer" bind:this={item.element} {onclick}>
+<li class="" class:active={is_active} bind:this={item.element} {onclick}>
 	<span>
 		{title}
 	</span>
@@ -71,3 +71,13 @@
 		</div>
 	{/if}
 </li>
+
+<style lang="postcss">
+	li {
+		@apply text-white px-6 py-4 relative cursor-pointer;
+	}
+
+	li.active {
+		@apply bg-neutral-600 text-neutral-100;
+	}
+</style>
