@@ -11,7 +11,7 @@
 
 	let { open = false, children } = $props();
 
-	const duration = 200;
+	const duration = 150;
 
 	let is_mobile = $state(true);
 
