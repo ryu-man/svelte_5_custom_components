@@ -76,7 +76,5 @@
 		@apply text-white px-6 py-4 relative cursor-pointer;
 	}
 
-	li.active {
-		@apply bg-neutral-600 text-neutral-100;
-	}
+
 </style>
