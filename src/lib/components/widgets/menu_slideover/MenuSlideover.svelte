@@ -26,6 +26,8 @@
 	$effect(() => {
 		if (is_mobile) {
 			width_tweened.set(+open);
+		}else {
+			width_tweened.set(0)
 		}
 	});
 
