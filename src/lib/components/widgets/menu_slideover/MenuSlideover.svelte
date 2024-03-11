@@ -8,6 +8,7 @@
 	import { cn } from '$lib/utils';
 	import { tweened } from 'svelte/motion';
 	import DismissRegular from '$lib/components/icons/DismissRegular.svelte';
+	import { quadInOut } from 'svelte/easing';
 
 	let { open = false, children } = $props();
 
@@ -21,13 +22,13 @@
 
 	let content_client_width = $state(0);
 
-	const width_tweened = tweened(0, { duration });
+	const width_tweened = tweened(0, { duration, delay: 10 });
 
 	$effect(() => {
 		if (is_mobile) {
 			width_tweened.set(+open);
-		}else {
-			width_tweened.set(0)
+		} else {
+			// width_tweened.set(0)
 		}
 	});
 
@@ -90,88 +91,95 @@
 		{@render children()}
 	</div>
 
-	{#if open}
-		<div class="slide-over">
-			<div
-				class={cn('inner')}
-				transition:fly={{ duration: is_mobile ? 0 : duration, delay: 0, x: 240 }}
-			>
-				<div class="flex flex-nowrap items-center border-b py-4 px-6 font-bold">
-					<button
-						onclick={() => {
-							const p = back();
-							if (!p) {
-								closeSlideover();
-							}
-						}}
-					>
-						{#if history.length}
-							<ArrowLeftRegularIcon />
-						{:else}
-							<DismissRegular />
-						{/if}
-					</button>
+	{#await tick() then _}
+		{#if open}
+			<div class="slide-over">
+				<div
+					class={cn('inner')}
+					transition:fly={{
+						duration: is_mobile ? 0 : duration,
+						delay: 0,
+						x: 240,
+						easing: quadInOut
+					}}
+				>
+					<div class="flex flex-nowrap items-center border-b py-4 px-6 font-bold">
+						<button
+							onclick={() => {
+								const p = back();
+								if (!p) {
+									closeSlideover();
+								}
+							}}
+						>
+							{#if history.length}
+								<ArrowLeftRegularIcon />
+							{:else}
+								<DismissRegular />
+							{/if}
+						</button>
 
-					<div class="flex-1 flex items-center justify-center">Menu</div>
+						<div class="flex-1 flex items-center justify-center">Menu</div>
+					</div>
+
+					<div class="flex-1 w-full">
+						<Stepper bind:this={stepper_controller} bind:history>
+							<Step path="/" duration={150}>
+								<ul>
+									<li>
+										<a href="/"> Home </a>
+									</li>
+									<li class="flex flex-nowrap items-center" onclick={() => navigate('/invest')}>
+										<span>Invest</span>
+										<span class="ml-auto"> <ChevronRight /></span>
+									</li>
+
+									<li>
+										<a href="/trade"> Trade </a>
+									</li>
+
+									<li class="flex flex-nowrap items-center" onclick={() => navigate('/learn')}>
+										<span>Learn</span>
+										<span class="ml-auto"> <ChevronRight /></span>
+									</li>
+									<li>
+										<a href="/company"> Company </a>
+									</li>
+									<li>
+										<a href="/support"> Support </a>
+									</li>
+								</ul>
+							</Step>
+
+							<Step path="/invest" duration={150}>
+								<ul>
+									<li>Invest menu item 1</li>
+									<li>Invest menu item 2</li>
+									<li>Invest menu item 3</li>
+								</ul>
+							</Step>
+
+							<Step path="/learn" duration={150}>
+								<ul>
+									<li>Learn menu item 1</li>
+									<li>Learn menu item 2</li>
+									<li>Learn menu item 3</li>
+								</ul>
+							</Step>
+						</Stepper>
+					</div>
 				</div>
 
-				<div class="flex-1 w-full">
-					<Stepper bind:this={stepper_controller} bind:history>
-						<Step path="/" duration={150}>
-							<ul>
-								<li>
-									<a href="/"> Home </a>
-								</li>
-								<li class="flex flex-nowrap items-center" onclick={() => navigate('/invest')}>
-									<span>Invest</span>
-									<span class="ml-auto"> <ChevronRight /></span>
-								</li>
-
-								<li>
-									<a href="/trade"> Trade </a>
-								</li>
-
-								<li class="flex flex-nowrap items-center" onclick={() => navigate('/learn')}>
-									<span>Learn</span>
-									<span class="ml-auto"> <ChevronRight /></span>
-								</li>
-								<li>
-									<a href="/company"> Company </a>
-								</li>
-								<li>
-									<a href="/support"> Support </a>
-								</li>
-							</ul>
-						</Step>
-
-						<Step path="/invest" duration={150}>
-							<ul>
-								<li>Invest menu item 1</li>
-								<li>Invest menu item 2</li>
-								<li>Invest menu item 3</li>
-							</ul>
-						</Step>
-
-						<Step path="/learn" duration={150}>
-							<ul>
-								<li>Learn menu item 1</li>
-								<li>Learn menu item 2</li>
-								<li>Learn menu item 3</li>
-							</ul>
-						</Step>
-					</Stepper>
-				</div>
+				<div
+					class="backdrop fixed inset-0 z-[0] bg-black/50 transition-colors duration-100"
+					role="button"
+					tabindex="-1"
+					transition:fade={{ duration: 150, delay: 0 }}
+					onclick={closeSlideover}
+				/>
 			</div>
-
-			<div
-				class="backdrop fixed inset-0 z-[0] bg-black/50 transition-colors duration-100"
-				role="button"
-				tabindex="-1"
-				transition:fade={{ duration: 200, delay: 0 }}
-				onclick={closeSlideover}
-			/>
-		</div>
-	{/if}
+		{/if}
+	{/await}
 </div>
 
 <style lang="postcss">
